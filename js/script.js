@@ -1,9 +1,11 @@
 'use strict';
 
 window.addEventListener('DOMContentLoaded', () => {
+
+    // Создание табов на стартовой странице
     const tabs = document.querySelectorAll('.tabheader__item'),
-          tabsContent = document.querySelectorAll('.tabcontent'),
-          tabsParent = document.querySelector('.tabheader__items');
+        tabsContent = document.querySelectorAll('.tabcontent'),
+        tabsParent = document.querySelector('.tabheader__items');
 
     function hideTabContent() {
         tabsContent.forEach(item => {
@@ -40,43 +42,57 @@ window.addEventListener('DOMContentLoaded', () => {
 
     hideTabContent();
     showTabContent();
+
+    // Создание таймера обратного отсчета на сайте
+    const deadline = '2020-07-11';
+
+    const getTimeRemaining = (endTime) => {
+        const t = Date.parse(endTime) - Date.parse(new Date()),
+              days = Math.floor(t / (1000 * 60 * 60 * 24 )),
+              hours = Math.floor((t/ (1000 * 60 * 60)) % 24),
+              minutes = Math.floor((t / (1000 * 60)) % 60),
+              seconds = Math.floor((t / 1000) % 60);
+              
+        return {
+            total: t,
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        };
+    };
+
+    const getZero = (num) => {
+        if (num >= 0 && num < 10) {
+            num = '0' + num;
+            return num;
+        } else {
+            return num;
+        }
+    };
+
+    const setClock = (selector, endtime) => {
+        const timer = document.querySelector(selector),
+              days = timer.querySelector('#days'),
+              hours = timer.querySelector('#hours'),
+              minutes = timer.querySelector('#minutes'),
+              seconds = timer.querySelector('#seconds'),
+              timeInterval = setInterval(updateClock, 1000);
+
+        function updateClock() {
+            const t = getTimeRemaining(endtime);
+
+            days.innerHTML = getZero(t.days);
+            hours.innerHTML = getZero(t.hours);
+            minutes.innerHTML = getZero(t.days);
+            seconds.innerHTML = getZero(t.seconds);
+
+            if (t.total <= 0) {
+                clearInterval(timeInterval);
+            }
+        }
+        updateClock();
+    };
+
+    setClock('.timer', deadline);
 });
-
-
-
-//  Мой вариант выполнения данной задачи! ----------------------------------------------------
-
-// window.addEventListener('DOMContentLoaded', () => {
-//     const allTabs = document.querySelectorAll('.tabcontent'),
-//           allPointsMenu = document.querySelectorAll('.tabheader__item');
-
-//     const seeTab = (tabs, num) => {
-//         tabs.forEach((tab, i) => {
-//             if (num == i) {
-//                 tab.classList.add('active_tab');
-//             } else {
-//                 tab.classList.remove('active_tab');
-//             }
-//         });
-//     };
-
-//     const addMenuClass = (links, num) => {
-//         links.forEach((link, i) => {
-//             if (num == i) {
-//                 link.classList.add('tabheader__item_active');
-//             } else {
-//                 link.classList.remove('tabheader__item_active');
-//             }
-//         });
-//     };
-
-//     allPointsMenu.forEach((point, i) => {
-//         point.addEventListener('click', () => {
-
-//             addMenuClass(allPointsMenu, i);
-//             seeTab(allTabs, i);
-
-//         });
-//     });
-
-// });
