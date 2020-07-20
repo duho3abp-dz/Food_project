@@ -142,6 +142,16 @@ window.addEventListener('DOMContentLoaded', () => {
     const modalTimerId = setTimeout(openModal, 50000);
 
     // Шаблонизируем карточки с меню ------------------------------------------------------------------
+    const getResource = async url => {
+        const res = await fetch(url);
+
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
+
+        return await res.json();
+    };
+
     class MenuCard {
         constructor(picture, alt, title, text, price, parentSelector, ...newClass) {
             this.picture = picture;
@@ -185,35 +195,13 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    new MenuCard(
-        'img/tabs/vegy.jpg',
-        'vegy',
-        'Фитнес',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        5,
-        '[data-menu]',
-        'menu__item'
-    ).render();
-
-    new MenuCard(
-        'img/tabs/elite.jpg',
-        'elite',
-        'Премиум',
-        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-        10,
-        '[data-menu]',
-        'menu__item'
-    ).render();
-
-    new MenuCard(
-        'img/tabs/post.jpg',
-        'post',
-        'Постное',
-        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        8,
-        '[data-menu]',
-        'menu__item'
-    ).render();
+    getResource('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '[data-menu]', 'menu__item')
+                    .render();
+            });
+        });
 
     // Скрипт отправки данных форм на сервер ------------------------------------------------------------------
 
@@ -246,7 +234,19 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     };
 
-    const postData = form => {
+    const postData = async (url, data) => {
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: data
+        });
+
+        return await res.json();
+    };
+
+    const bindPostData = form => {
         form.addEventListener('submit', e => {
             e.preventDefault();
 
@@ -259,19 +259,9 @@ window.addEventListener('DOMContentLoaded', () => {
             form.insertAdjacentElement('afterend', statusMessage);
 
             const formData = new FormData(form);
-            const obj = {};
-            formData.forEach((item, i) => {
-                obj[i] = item;
-            });
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            fetch('server.php', {
-                    method: "POST",
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(obj)
-                })
-                .then(data => data.text())
+            postData('http://localhost:3000/requests', json)
                 .then(data => {
                     console.log(data);
                     showThanksModal(message.success);
@@ -287,6 +277,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     forms.forEach(form => {
-        postData(form);
+        bindPostData(form);
     });
+
 });

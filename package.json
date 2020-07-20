@@ -1,0 +1,22 @@
+{
+  "name": "food_eazy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duho3abp-dz/Food_project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/duho3abp-dz/Food_project/issues"
+  },
+  "homepage": "https://github.com/duho3abp-dz/Food_project#readme",
+  "devDependencies": {
+    "json-server": "^0.16.1"
+  }
+}
