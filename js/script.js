@@ -197,7 +197,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     getResource('http://localhost:3000/menu')
         .then(data => {
-            data.forEach(({img, altimg, title, descr, price}) => {
+            data.forEach(({
+                img,
+                altimg,
+                title,
+                descr,
+                price
+            }) => {
                 new MenuCard(img, altimg, title, descr, price, '[data-menu]', 'menu__item')
                     .render();
             });
@@ -278,6 +284,58 @@ window.addEventListener('DOMContentLoaded', () => {
 
     forms.forEach(form => {
         bindPostData(form);
+    });
+
+    // Слайдер ------------------------------------------------------------------
+
+    const slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+        slidesField = slidesWrapper.querySelector('.offer__slider-inner'),
+        slides = slidesField.querySelectorAll('.offer__slide'),
+        nextBtn = document.querySelector('.offer__slider-next'),
+        prevBtn = document.querySelector('.offer__slider-prev'),
+        current = document.querySelector('#current'),
+        total = document.querySelector('#total'),
+        width = window.getComputedStyle(slidesWrapper).width;
+    let slideIndex = 1,
+        offset = 0;
+
+    slides.length < 10 ? total.textContent = `0${slides.length}` : total.textContent = slides.length ;
+    slideIndex < 10 ? current.textContent = `0${slideIndex}` : current.textContent = slideIndex ;
+        
+    slidesWrapper.style.overflow = 'hidden';
+    slidesField.style.width = `${100 * slides.length}%`;
+    slidesField.style.display = 'flex';
+    slidesField.style.transition = '0.5s all';
+    slides.forEach(slide => {
+        slide.style.width = width;
+    });
+
+    nextBtn.addEventListener('click', () => {
+        
+        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+            offset = 0;
+            slideIndex = 1;
+        } else {
+            offset += +width.slice(0, width.length - 2);
+            slideIndex++;
+        }
+
+        slidesField.style.transform = `translateX(-${offset}px)`;
+        slideIndex < 10 ? current.textContent = `0${slideIndex}` : current.textContent = slideIndex ;
+    });
+
+    prevBtn.addEventListener('click', () => {
+        
+        if (offset ==  0) {
+            offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+            slideIndex = slides.length;
+        } else {
+            offset -= +width.slice(0, width.length - 2);
+            slideIndex--;
+        }
+
+        slidesField.style.transform = `translateX(-${offset}px)`;
+        slideIndex < 10 ? current.textContent = `0${slideIndex}` : current.textContent = slideIndex ;
     });
 
 });

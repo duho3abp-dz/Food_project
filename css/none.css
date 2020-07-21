@@ -1,3 +1,24 @@
+/* .offer__slider-wrapper{
+    overflow: hidden;
+    height: 390px;
+    position: relative;
+    transition: 1s;
+}
+
+.offer__slider-inner {
+    position: absolute;
+    left: 0%;
+    top: 0;
+    width: max-content;
+    transition: .3s;
+}
+
+.offer__slide{
+    width: 650px;
+    display: block;
+    float: left;
+} */
+
 .hide {
     display: none;
 }
