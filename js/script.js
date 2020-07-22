@@ -287,6 +287,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // Слайдер ------------------------------------------------------------------
+    const stringToNumber = (str) => +str.replace(/\D/g, '');
 
     const slider = document.querySelector('.offer__slider'),
         slidesWrapper = slider.querySelector('.offer__slider-wrapper'),
@@ -296,7 +297,7 @@ window.addEventListener('DOMContentLoaded', () => {
         prevBtn = slider.querySelector('.offer__slider-prev'),
         current = slider.querySelector('#current'),
         total = slider.querySelector('#total'),
-        width = window.getComputedStyle(slidesWrapper).width,
+        width = stringToNumber(window.getComputedStyle(slidesWrapper).width),
         carouselIndicators = document.createElement('div');
     let slideIndex = 1,
         offset = 0;
@@ -317,7 +318,7 @@ window.addEventListener('DOMContentLoaded', () => {
     slidesField.style.display = 'flex';
     slidesField.style.transition = '0.5s all';
     slides.forEach(slide => {
-        slide.style.width = width;
+        slide.style.width = `${width}px`;
     });
     carouselIndicators.classList.add('carousel-indicators');
 
@@ -339,7 +340,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     dots.forEach(dot => {
         dot.addEventListener('click', () => {
-            offset = dot.id * +width.slice(0, width.length - 2);
+            offset = dot.id * width;
             slideIndex = +dot.id + 1;
 
             transformSlider(offset, slideIndex, dots, dot);
@@ -348,11 +349,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     nextBtn.addEventListener('click', () => {
 
-        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+        if (offset == width * (slides.length - 1)) {
             offset = 0;
             slideIndex = 1;
         } else {
-            offset += +width.slice(0, width.length - 2);
+            offset += width;
             slideIndex++;
         }
 
@@ -362,10 +363,10 @@ window.addEventListener('DOMContentLoaded', () => {
     prevBtn.addEventListener('click', () => {
 
         if (offset == 0) {
-            offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+            offset = width * (slides.length - 1);
             slideIndex = slides.length;
         } else {
-            offset -= +width.slice(0, width.length - 2);
+            offset -= width;
             slideIndex--;
         }
 
