@@ -1,14 +1,25 @@
-function slider() {
+'use strict';
+
+const slider = ({
+    sliderSelector,
+    wrapper,
+    field,
+    container,
+    next,
+    prev,
+    totalCounter,
+    currentCounter
+}) => {
     const stringToNumber = (str) => +str.replace(/\D/g, '');
 
-    const slider = document.querySelector('.offer__slider'),
-        slidesWrapper = slider.querySelector('.offer__slider-wrapper'),
-        slidesField = slidesWrapper.querySelector('.offer__slider-inner'),
-        slides = slidesField.querySelectorAll('.offer__slide'),
-        nextBtn = slider.querySelector('.offer__slider-next'),
-        prevBtn = slider.querySelector('.offer__slider-prev'),
-        current = slider.querySelector('#current'),
-        total = slider.querySelector('#total'),
+    const slider = document.querySelector(sliderSelector),
+        slidesWrapper = slider.querySelector(wrapper),
+        slidesField = slidesWrapper.querySelector(field),
+        slides = slidesField.querySelectorAll(container),
+        nextBtn = slider.querySelector(next),
+        prevBtn = slider.querySelector(prev),
+        current = slider.querySelector(currentCounter),
+        total = slider.querySelector(totalCounter),
         width = stringToNumber(window.getComputedStyle(slidesWrapper).width),
         carouselIndicators = document.createElement('div');
     let slideIndex = 1,
@@ -84,5 +95,5 @@ function slider() {
 
         transformSlider(offset, slideIndex, dots, dots[slideIndex - 1]);
     });
-}
-module.exports = slider;
+};
+export default slider;

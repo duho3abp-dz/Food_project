@@ -1,7 +1,12 @@
-function forms() {
-    const forms = document.querySelectorAll('form'),
-        modalContent = document.querySelector('.modal__content'),
-        formContent = modalContent.querySelector('form');
+'use strict';
+
+import {openModal, closeModal} from './modal';
+import {postData} from '../services/services';
+
+const forms = (formsSelectors, modalSelector, formSelector, modalTimerId) => {
+    const forms = document.querySelectorAll(formsSelectors),
+        modalContent = document.querySelector(modalSelector),
+        formContent = modalContent.querySelector(formSelector);
 
     const message = {
         loading: 'img/form/spinner.svg',
@@ -10,7 +15,7 @@ function forms() {
     };
 
     const showThanksModal = message => {
-        openModal();
+        openModal('.modal', modalTimerId);
         formContent.classList.remove('show');
         formContent.classList.add('hide');
 
@@ -24,20 +29,8 @@ function forms() {
             formContent.classList.remove('hide');
             formContent.classList.add('show');
             showContent.remove();
-            closeModal();
+            closeModal('.modal');
         }, 2000);
-    };
-
-    const postData = async (url, data) => {
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: data
-        });
-
-        return await res.json();
     };
 
     const bindPostData = form => {
@@ -73,5 +66,5 @@ function forms() {
     forms.forEach(form => {
         bindPostData(form);
     });
-}
-module.exports = forms;
+};
+export default forms;

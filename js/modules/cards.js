@@ -1,13 +1,7 @@
-function cards() {
-    const getResource = async url => {
-        const res = await fetch(url);
+'use strict';
+import {getResource} from '../services/services';
 
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-        }
-
-        return await res.json();
-    };
+function cards() {    
 
     class MenuCard {
         constructor(picture, alt, title, text, price, parentSelector, ...newClass) {
@@ -66,4 +60,4 @@ function cards() {
             });
         });
 }
-module.exports = cards;
+export default cards;
