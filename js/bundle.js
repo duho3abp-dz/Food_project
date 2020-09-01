@@ -765,7 +765,7 @@ window.addEventListener('DOMContentLoaded', function () {
     return Object(_modules_modal__WEBPACK_IMPORTED_MODULE_3__["openModal"])('.modal', modalTimerId);
   }, 50000);
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_1__["default"])('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
-  Object(_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])('.timer', '2020-08-21');
+  Object(_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])('.timer', '2020-10-19');
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_3__["default"])('[data-modal]', '.modal', modalTimerId);
   Object(_modules_cards__WEBPACK_IMPORTED_MODULE_4__["default"])();
   Object(_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])('form', '.modal__content', 'form', modalTimerId);
